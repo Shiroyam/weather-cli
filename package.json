@@ -12,9 +12,6 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "eslint": "^8.23.0"
-  },
   "dependencies": {
     "chalk": "^5.0.1",
     "dedent-js": "^1.0.1"
