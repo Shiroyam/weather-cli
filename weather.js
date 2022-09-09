@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 import { getArgs } from "./helpers/args.js";
-import { printError, printHelp, printSuccess } from "./services/log.js";
-import { saveKeyValue } from "./services/storage.js";
+import {
+  printError,
+  printHelp,
+  printSuccess,
+  printWeather,
+} from "./services/log.js";
+import { getKeyValue, saveKeyValue } from "./services/storage.js";
 import { getWeather } from "./services/api.js";
 
 const saveToken = async (token) => {
@@ -28,8 +33,11 @@ const saveCity = async (city) => {
 
 const getForcast = async () => {
   try {
-    const weather = await getWeather("moscow");
-    console.log(weather);
+    const city = (await getKeyValue("city"))
+      ? await getKeyValue("city")
+      : "moscow";
+    const weather = await getWeather(city);
+    printWeather(weather, "");
   } catch (error) {
     if (error?.response?.status === 404) {
       printError("Неверно указан город!");
@@ -47,7 +55,7 @@ const initCli = () => {
     printHelp();
   }
   if (args.s) {
-    saveCity(args.s)
+    saveCity(args.s);
   }
   if (args.t) {
     return saveToken(args.t);
