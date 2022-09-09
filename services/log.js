@@ -25,7 +25,7 @@ export const printWeather = (res, icon) => {
   console.log(
     dedent`
          ${chalk.bgYellow("Погода")} погода в городе ${res.name}
-         ${icon} ${res.weather[0].descritpion}
+         ${icon} ${res.weather[0].description}
          Температура: ${res.main.temp} (ошушается как ${res.main.feels_like})
          Влажность: ${res.main.humidity}%
          Скорость ветра: ${res.wind.speed}      
