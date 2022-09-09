@@ -7,7 +7,7 @@ import {
   printWeather,
 } from "./services/log.js";
 import { getKeyValue, saveKeyValue } from "./services/storage.js";
-import { getWeather } from "./services/api.js";
+import { getIcon, getWeather } from "./services/api.js";
 
 const saveToken = async (token) => {
   try {
@@ -36,8 +36,9 @@ const getForcast = async () => {
     const city = (await getKeyValue("city"))
       ? await getKeyValue("city")
       : "moscow";
+
     const weather = await getWeather(city);
-    printWeather(weather, "");
+    printWeather(weather, getIcon(weather.weather[0].icon));
   } catch (error) {
     if (error?.response?.status === 404) {
       printError("Неверно указан город!");
@@ -60,7 +61,7 @@ const initCli = () => {
   if (args.t) {
     return saveToken(args.t);
   }
-  getForcast();
+  return getForcast();
 };
 
 initCli();
